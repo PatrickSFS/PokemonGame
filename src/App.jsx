@@ -9,20 +9,23 @@ import MyPokemon from './pages/MyPokemon';
 import Battle from './pages/Battle';
 import Profile from './pages/Profile';
 import PokemonCatcher from './pages/PokemonCatcher';
+import { ApiProvider } from './services/ApiContext';
 
 function App() {
   return (
-      <Router >
-        <NavBar />
-        <Routes>
-        <Route path="/Home" element={<Home />} />
-          <Route path="/PokemonCatcher" element={<PokemonCatcher />} />
-          <Route path="/MyPokemon" element={<MyPokemon />} />
-          <Route path="/Battle" element={<Battle />} />
-          <Route path="/Profile" element={<Profile />} />
-        </Routes>
-        <FooterComponent />
-      </Router>
+    <ApiProvider>
+        <Router >
+          <NavBar />
+          <Routes>
+          <Route path="/Home" element={<Home />} />
+            <Route path="/PokemonCatcher" element={<PokemonCatcher />} />
+            <Route path="/MyPokemon" element={<MyPokemon />} />
+            <Route path="/Battle" element={<Battle />} />
+            <Route path="/Profile" element={<Profile />} />
+          </Routes>
+          <FooterComponent />
+        </Router>
+      </ApiProvider>
   );
 }
 

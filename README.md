@@ -10,3 +10,5 @@ html
 css
 tailwind
 BrowserRouter
+axios
+react-slick
