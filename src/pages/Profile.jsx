@@ -1,6 +1,6 @@
 function Profile(){
   return(
-    <div>
+    <div className='container min-h-[90vh]'>
       Profile
     </div>
   )

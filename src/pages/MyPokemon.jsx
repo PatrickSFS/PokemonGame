@@ -1,6 +1,6 @@
 function MyPokemon(){
   return(
-    <div>
+    <div className='container min-h-[90vh]'>
       MyPokemon
     </div>
   )

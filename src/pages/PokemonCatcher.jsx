@@ -1,6 +1,6 @@
 function PokemonCatcher(){
   return(
-    <div>
+    <div className='container min-h-[90vh]'>
       PokemonCatcher
     </div>
   )
