@@ -11,11 +11,11 @@ function NavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-          <Nav.Link as={Link} to="/Home">Home</Nav.Link>
-            <Nav.Link as={Link} to="/PokemonCatcher">Pokemon Catcher</Nav.Link>
-            <Nav.Link as={Link} to="/MyPokemon">My Pokemon</Nav.Link>
-            <Nav.Link as={Link} to="/Battle">Battle</Nav.Link>
-            <Nav.Link as={Link} to="/Profile">Profile</Nav.Link>
+          <Nav.Link as={Link} to="/Home">Inicio</Nav.Link>
+            <Nav.Link as={Link} to="/PokemonCatcher">Capture</Nav.Link>
+            <Nav.Link as={Link} to="/MyPokemon">Meus Pokémons</Nav.Link>
+            <Nav.Link as={Link} to="/Battle">Batalhe</Nav.Link>
+            <Nav.Link as={Link} to="/Profile">Treinador</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

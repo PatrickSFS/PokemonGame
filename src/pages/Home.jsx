@@ -1,7 +1,8 @@
 import Form from '../components/Form';
 import { useState } from 'react';
-import ImgComponent from '../components/image';
+import ImgComponent from '../components/Image';
 import { useNavigate } from 'react-router-dom'; 
+import CarouselComponent from '../components/Carousel';
 
 function Home() {
   const [login, setLogin] = useState(false);
@@ -45,6 +46,9 @@ function Home() {
 
           </main>
         )}
+
+        <CarouselComponent />
+
       </div>
 
     </div>
