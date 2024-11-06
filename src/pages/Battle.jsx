@@ -2,9 +2,14 @@ import { useState, useEffect } from "react";
 import Button from '../components/Button';
 import CreateRandonTeam from "../components/CreateRadomTeam";
 import CardStatus from '../components/CardStatus';
+
 // Função de dano
 function DamageControl(attack, defense) {
-  const damage = attack - defense;
+  let damage = attack - (defense/2);
+  if(damage <= 0){
+    damage =1;
+    return damage;
+  }else
   return damage;
 }
 
@@ -12,6 +17,7 @@ function DamageControl(attack, defense) {
 function Battle() {
   const [myPokemonTeam, setMyPokemonTeam] = useState([]);
   const [opponentTeam, setOpponentTeam] = useState([]);
+
 
   const handleGenerateTeam = async () => {
     try {
@@ -27,7 +33,6 @@ function Battle() {
   useEffect(() => {
     const savedTeam = JSON.parse(localStorage.getItem('myPokemonTeam')) || [];
     setMyPokemonTeam(savedTeam);
-
   }, []);
 
   useEffect(() => {
@@ -70,7 +75,7 @@ function Battle() {
       while (hp1 > 0 && hp2 > 0 && turn < 20) {
         console.log(`--- Turno ${turn} ---`);
 
-        // pokemon 1 ataca o o pokemon 2
+        // pokemon 1 ataca o  pokemon 2
         let damage = DamageControl(attack1, defense2);
         console.log(`${name2} recebeu: ${damage} de dano`);
         hp2 = hp2 - damage;
@@ -78,10 +83,12 @@ function Battle() {
 
 
         // pokemon 2 ataca o o pokemon 1
-        let damage2 = DamageControl(attack2, defense1);
-        console.log(`${name1} recebeu: ${damage2} de dano`);
-        hp1 = hp1 - damage2;
-        console.log(`${name1} Vida atual: ${hp1}`);
+        if(hp2 > 0){
+          let damage2 = DamageControl(attack2, defense1);
+          console.log(`${name1} recebeu: ${damage2} de dano`);
+          hp1 = hp1 - damage2;
+          console.log(`${name1} Vida atual: ${hp1}`);
+        }
 
         turn++
       }
@@ -93,15 +100,47 @@ function Battle() {
         myPokemonTeam.shift();
         localStorage.setItem('myPokemonTeam', JSON.stringify(myPokemonTeam));
         setMyPokemonTeam(myPokemonTeam)
+
+        // atualizar a vida no localstorage e no Mypokemon
+
+        let opponentPokemonTeam = JSON.parse(localStorage.getItem('opponentPokemonTeam')) || [];
+        // remove o anterior
+        localStorage.removeItem('opponentPokemonTeam')
+
+        //atualiza a vida no objeto
+        opponentPokemonTeam[0].stats[0].base_stat = hp2;
+
+        // seta de novo o novo objeto
+        localStorage.setItem('opponentPokemonTeam', JSON.stringify(opponentPokemonTeam));
+        setOpponentTeam(opponentPokemonTeam);
+
+
         console.log(` Ganhou ${name2}`);
 
       }
 
       else {
+
+        // removo o pokemon que perdeu da lista
         let opponentPokemonTeam = JSON.parse(localStorage.getItem('opponentPokemonTeam')) || [];
         opponentPokemonTeam.shift();
         localStorage.setItem('opponentPokemonTeam', JSON.stringify(opponentPokemonTeam));
-        setOpponentTeam(opponentPokemonTeam)
+        setOpponentTeam(opponentPokemonTeam);
+
+        // atualizar a vida no localstorage e no Mypokemon
+
+        let myPokemonTeam = JSON.parse(localStorage.getItem('myPokemonTeam')) || [];
+        // remove o anterior
+        localStorage.removeItem('myPokemonTeam')
+
+        //atualiza a vida no objeto
+        myPokemonTeam[0].stats[0].base_stat = hp1;
+
+        // seta de novo o novo objeto
+        localStorage.setItem('myPokemonTeam', JSON.stringify(myPokemonTeam));
+        setMyPokemonTeam(myPokemonTeam);
+
+
         console.log(` Ganhou ${name1}`);
       }
 
