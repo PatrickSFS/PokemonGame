@@ -19,7 +19,7 @@ function CardComponent({ src, name, id, types, Abilities}) {
         </div>
         <Card.Subtitle></Card.Subtitle>
         <Card.Text className="text-xs mt-4">
-          <span className='font-bold '>Types:</span> {types}
+          <span className='font-bold '>Type:</span> {types}
         </Card.Text>
         <Card.Text className="text-xs mt-4">
         <span className='font-bold'>Abilities:</span> {Abilities}
