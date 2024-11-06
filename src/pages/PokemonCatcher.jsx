@@ -28,7 +28,7 @@ function PokemonCatcher() {
         const responses = await Promise.all(requests);
         const pokemonsData = responses.map(response => response.data);
         setData(pokemonsData);
-        console.log(pokemonsData);
+        //console.log(pokemonsData);
 
 
       } catch (e) {
@@ -83,7 +83,6 @@ function PokemonCatcher() {
               onClick={() => toggleSelectPokemon(pokemon)}
               className={`cursor-pointer ${isSelected ? 'border-2 border-green-500' : 'border-2 border-transparent'} rounded-lg w-[235px]`}
             >
-              console.log(pokemonsData);
               <CardStatus
                 src={pokemon.sprites.front_default}
                 name={pokemon.name}

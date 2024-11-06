@@ -23,7 +23,7 @@ function getRandomPokemons(count, min, max) {
   return Array.from(ids);
 }
 
-
+  // primeira requisição
   useEffect(() => {
     const fetchData = async () => {
       try {

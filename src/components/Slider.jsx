@@ -6,8 +6,7 @@ import CardComponent from './Card';
 function SliderComponent() {
   const { data } = useContext(ApiContext);
 
-  // Logando o data para ver o que está sendo recebido
-  console.log('Data received from API:', data);
+  // console.log('Data received from API:', data);
 
   const settings = {
     className: "center",

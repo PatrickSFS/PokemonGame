@@ -8,10 +8,11 @@ ButtonComponent.propTypes = {
   buttonName: PropTypes.string.isRequired,
 };
 
-function ButtonComponent({href, buttonName}) {
+// eslint-disable-next-line react/prop-types
+function ButtonComponent({href, buttonName, onclick}) {
   return (
       <Link to={href}>
-        <Button variant="light" >{buttonName}</Button>{' '}
+        <Button variant="light" onClick={onclick}>{buttonName}</Button>{' '}
       </Link>
   );
 }
