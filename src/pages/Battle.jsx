@@ -124,7 +124,7 @@ function Battle() {
         onclick={() => combat(myPokemonTeam, opponentTeam)}
       />
   
-      <h2>Meus Pokémon</h2>
+      <h2>Meu Time</h2>
       <div className="flex flex-wrap">
         {myPokemonTeam.map((pokemon) => {
           const types = pokemon.types ? pokemon.types.map((type) => type.type.name) : [];
@@ -146,7 +146,7 @@ function Battle() {
           );
         })}
       </div>
-      <h2>Time do Oponent</h2>
+      <h2>Time do Oponente</h2>
       <div className="flex flex-wrap">
         {opponentTeam.map((pokemon) => {
           const types = pokemon.types ? pokemon.types.map((type) => type.type.name) : [];
