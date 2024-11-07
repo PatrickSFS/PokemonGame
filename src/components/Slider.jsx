@@ -22,16 +22,16 @@ function SliderComponent() {
     <div className="container w-[1200px] my-8">
       <Slider {...settings}>
         {data.map((pokemon) => {
-          const types = pokemon.types.map(typeInfo => typeInfo.type.name).join(', ');
-          const abilities = pokemon.abilities.map(typeInfo => typeInfo.ability.name).join('/ ');
+          const types = pokemon.types.map(typeInfo => typeInfo.type.name).join(', ')
           return (
-            <div key={pokemon.id}>
+            <div key={pokemon.id} className="py-8">
               <CardComponent
                 src={pokemon.sprites.front_default}
                 name={pokemon.name}
                 id={pokemon.id}
                 types={types} 
-                Abilities={abilities}
+                height ={pokemon.height/10}
+                weight ={pokemon.weight/10}
               />
             </div>
           );

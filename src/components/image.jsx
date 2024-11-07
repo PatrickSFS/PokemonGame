@@ -3,7 +3,6 @@ import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
 import PropTypes from 'prop-types';
 
-
 ImgComponent.propTypes = {
   src: PropTypes.string.isRequired,
 };
@@ -11,9 +10,9 @@ ImgComponent.propTypes = {
 function ImgComponent({src}) {
   return (
     <Container>
-        <Col xs={60} md={60}>
-          <Image src={src} rounded />
-        </Col>
+      <Col xs={12} md={6}> {/* Ajustando para que a coluna tenha um tamanho responsivo */}
+        <Image src={src} rounded fluid style={{maxWidth: '300px', maxHeight: '200px'}} /> {/* Definindo a imagem para ser pequena */}
+      </Col>
     </Container>
   );
 }

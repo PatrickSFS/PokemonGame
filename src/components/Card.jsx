@@ -1,32 +1,47 @@
 import Card from 'react-bootstrap/Card';
 
 // eslint-disable-next-line react/prop-types
-function CardComponent({ src, name, id, types, Abilities}) {
+function CardComponent({ src, name, id, types, height, weight }) {
   return (
-      <Card style={{ 
-        cursor: "pointer", 
-        background: "none", 
-        color: "white", 
-        border: "3px solid black", 
-        borderRadius: "2%",
-        width:"232px"
-      }}>
-      <Card.Img variant="top" src={src} />
-      <Card.Body style={{background:"#4b4a4a",height:"150px"}}>
-        <div className=' flex place-content-between'>
-        <Card.Title className='font-bold'>{name}</Card.Title>
-        <Card.Title>{id}</Card.Title>
-        </div>
-        <Card.Subtitle></Card.Subtitle>
-        <Card.Text className="text-xs mt-4">
-          <span className='font-bold '>Type:</span> {types}
-        </Card.Text>
-        <Card.Text className="text-xs mt-4">
-        <span className='font-bold'>Abilities:</span> {Abilities}
-        </Card.Text>
-      </Card.Body>
-    </Card>
+<Card
+  className="cursor-pointer text-white text-opacity-50 rounded-md transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:border-2 hover:border-zinc-400 bg-[#353535] h-[460px] w-[230px]"
+>
+  <div className='h-[210px]'>
+    <Card.Img variant="bottom" src={src}/>
+  </div>
+  <Card.Body className=" bg-[#222222] text-center relative">
+    <div
+      className="absolute inset-0"
+      style={{
+        backgroundImage: `url(${src})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '100%',
+        width: '100%',
+        transform: 'rotate(180deg) scaleX(-1)',
+        opacity: 0.05,
+      }}
+    />
+    <div className="text-center pt-2">
+      <Card.Title className="font-bold border-top p-1 border-bottom border-white overflow-hidden text-ellipsis whitespace-nowrap mx-4">{name}</Card.Title>
+    </div>
+    <Card.Text className="text-xs flex justify-between ">
+      <span className="font-bold">Number:</span> {id}
+    </Card.Text>
+    <Card.Text className="text-xs flex justify-between">
+      <span className="font-bold">Type:</span> {types}
+    </Card.Text>
+    <Card.Text className="text-xs flex justify-between">
+      <span className="font-bold">height:</span> {height + " m"}
+    </Card.Text>
+    <Card.Text className="text-xs flex justify-between">
+      <span className="font-bold">weight:</span> {weight + " Kg"}
+    </Card.Text>
+  </Card.Body>
+</Card>
+
   );
 }
-
+// border-2 border-zinc-400 
 export default CardComponent;
