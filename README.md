@@ -16,11 +16,19 @@ usando LocalStorage
 
 
 ## A fazer
+home
+- fazer form funcional --- feito
+- fazer verificações
+- salvar login no localstorage --- feito
+- permitir usuario excluir conta --- feito
+
+- criar componente de loading --- feito
 
 css
  - Aumentar o tamanho do cardStatus um cadinho, devido a nomes de pokemons gigantes ksksksks
  - fazer o css de todas as páginas
-
+  - Ver qual a cor da NavBar e colocar no footer, ta muito forte a transição
+  - adicionar modo claro
 
 MyPokemon:
 - poder excluir alguns pokemons para poder pegar novos

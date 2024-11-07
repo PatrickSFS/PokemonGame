@@ -1,25 +1,33 @@
 import Form from '../components/Form';
-import { useState } from 'react';
 import ImgComponent from '../components/Image';
 import { useNavigate } from 'react-router-dom';
 import SliderComponent from '../components/Slider';
 
+
+
 function Home() {
-  const [login, setLogin] = useState(false);
   const navigate = useNavigate("");
 
   const handleSubmit = (path) => {
     navigate(path);
   };
 
+
+
+const loginVerification = () => {
+  const profile = localStorage.getItem('Profile');
+  return profile !== null;
+};
+
   return (
     <div className="container min-h-screen bg-gradient-to-b from-neutral-900 to-zinc-900 text-white pb-8 ">
       <h2 className="text-center text-3xl font-bold pt-8">Bem-vindo à batalha de Pokémon</h2>
 
       <div className="container flex flex-col items-center text-center mt-8">
-        {login === false ? (
+        {loginVerification() === false ? (
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <Form login={login} setLogin={setLogin} />
+            <Form />
+
           </div>
         ) : (
           <main className="grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ">
