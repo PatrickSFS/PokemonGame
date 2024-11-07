@@ -17,7 +17,9 @@ function DamageControl(attack, defense) {
 function Battle() {
   const [myPokemonTeam, setMyPokemonTeam] = useState([]);
   const [opponentTeam, setOpponentTeam] = useState([]);
+  const [log, setLog] = useState([]);
 
+  let combatLogs = [];
 
   const handleGenerateTeam = async () => {
     try {
@@ -64,34 +66,38 @@ function Battle() {
       const defense1 = pokemon1[0].stats[2].base_stat;
       const defense2 = pokemon2[0].stats[2].base_stat;
 
-      console.log(`meu Pokémon: ${name1}, adversário: ${name2}`);
-      console.log(`HP1: ${hp1}, HP2: ${hp2}`);
-      console.log(`Attack1: ${attack1}, Attack2: ${attack2}`);
-      console.log(`Defense1: ${defense1}, Defense2: ${defense2}`);
+      combatLogs.push(`${name1}, Vs ${name2}`);
+
 
       let turn = 1;
-
-
       while (hp1 > 0 && hp2 > 0 && turn < 20) {
-        console.log(`--- Turno ${turn} ---`);
+        combatLogs.push(`----- Turno -----`);
+        
 
         // pokemon 1 ataca o  pokemon 2
         let damage = DamageControl(attack1, defense2);
-        console.log(`${name2} recebeu: ${damage} de dano`);
+        combatLogs.push(`${name2} recebeu: ${damage} de dano`);
         hp2 = hp2 - damage;
-        console.log(`${name2} Vida atual: ${hp2}`);
-
+        if(hp2 <=0){
+          hp2 = 0;
+        }
+        combatLogs.push(`${name2} Vida atual: ${hp2}`);
 
         // pokemon 2 ataca o o pokemon 1
         if(hp2 > 0){
           let damage2 = DamageControl(attack2, defense1);
-          console.log(`${name1} recebeu: ${damage2} de dano`);
+          combatLogs.push(`${name1} recebeu: ${damage2} de dano`);
           hp1 = hp1 - damage2;
-          console.log(`${name1} Vida atual: ${hp1}`);
+          if(hp1 <=0){
+            hp1 = 0;
+          }
+          combatLogs.push(`${name1} Vida atual: ${hp1}`);
         }
 
         turn++
       }
+
+      setLog(prevLogs => [...prevLogs, ...combatLogs]);
 
       // resultado do combate
       if (hp1 <= 0) {
@@ -114,9 +120,8 @@ function Battle() {
         localStorage.setItem('opponentPokemonTeam', JSON.stringify(opponentPokemonTeam));
         setOpponentTeam(opponentPokemonTeam);
 
-
-        console.log(` Ganhou ${name2}`);
-
+        let newLogs = [` Ganhou ${name2}`];
+        setLog(prevLogs =>[...prevLogs, ...newLogs])
       }
 
       else {
@@ -140,8 +145,8 @@ function Battle() {
         localStorage.setItem('myPokemonTeam', JSON.stringify(myPokemonTeam));
         setMyPokemonTeam(myPokemonTeam);
 
-
-        console.log(` Ganhou ${name1}`);
+        let newLogs = [` Ganhou ${name1}`];
+        setLog(prevLogs =>[...prevLogs, ...newLogs])
       }
 
 
@@ -162,7 +167,15 @@ function Battle() {
         href=""
         onclick={() => combat(myPokemonTeam, opponentTeam)}
       />
-  
+
+      {/*Mostra os Logs do combate*/}
+
+      <div>
+        {log.map((logItem, index) => (
+          <p key={index}>{logItem}</p>
+        ))}
+      </div>
+
       <h2>Meu Time</h2>
       <div className="flex flex-wrap">
         {myPokemonTeam.map((pokemon) => {

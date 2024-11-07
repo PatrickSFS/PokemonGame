@@ -37,7 +37,7 @@ Profile:
 Batalhe:
 - Poder selecionar qual pokémon eu quero atacar e com qual eu quero
 - criar efeitos extras com css
-- Atualizar a vida do pokemon que sobreviver
+- Atualizar a vida do pokemon que sobreviver --- feito
 - Transformar a parte que atualiza a vida deles no localstorage e no estado em uma função que recebe o objeto e sua vida atual.
 
 
