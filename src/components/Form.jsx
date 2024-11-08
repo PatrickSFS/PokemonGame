@@ -13,44 +13,36 @@ function FormComponent() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
-  const [login, setLogin] = useState(false);
   const [log, setLog] = useState('');
   const [loading, setLoading] =useState(false);
-
-  //estados para o Login
-  const [nameLogin, setNameLogin] = useState("");
-  const [passwordLogin, setPasswordLogin] = useState('');
 
 
   //função a criação da conta e salvar no LocalStorage
   const handleSubmit = (event, path) => {
     event.preventDefault();
-    setLogin(true);
-    const profileData = { email, password, name };
-    localStorage.setItem('Profile', JSON.stringify(profileData));
-
-    setLog("Conta criada com sucesso!");
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-      navigate(path); 
-    }, 2000); 
-
-  };
-
-  // função para checar o login e retornar positivo ou negativo
-  const handleSubmitLogin = (event, path) => {
-    const localStorageData = JSON.parse(localStorage.getItem('Profile')) || [];
-
-    if (nameLogin == localStorageData.name && passwordLogin == localStorageData.password) {
-      event.preventDefault();
-      setLogin(true);
-      navigate(path);
+  
+    if (!email) {
+      setLog("O email é obrigatório.");
+    } else if (!password || !confirmPassword) {
+      setLog("A senha e a confirmação são obrigatórias.");
+    } else if (password !== confirmPassword) {
+      setLog("As senhas não coincidem.");
+    } else if(!name)
+    {
+      setLog("O Nome é Obrigátorio");
+    }else {
+     const profileData = { email, password, name };
+      localStorage.setItem('Profile', JSON.stringify(profileData));
+  
+      setLog("Conta criada com sucesso!");
+      setLoading(true);
+  
+      setTimeout(() => {
+        setLoading(false);
+        navigate(path); 
+      }, 2000);
     }
-    else
-      setLog("Conta não encontrada");
-  }
+  };
 
   return (
     <div>
@@ -104,37 +96,9 @@ function FormComponent() {
           <Button variant="light" type="submit">
             Criar Conta
           </Button>
-          <Button variant="light" onClick={handleSubmitLogin} className='ml-8'>
-            Login
-          </Button>
         </Form>
       </div>
 
-      {/* componente de logion*/}
-      <div>
-        <Form onSubmit={handleSubmitLogin}>
-          <Form.Group className="mb-3" controlId="formBasicName">
-            <Form.Control
-              type="text"
-              placeholder="Nome"
-              className="bg-secondary text-white"
-              value={nameLogin}
-              onChange={(e) => setNameLogin(e.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Control
-              type="password"
-              placeholder="Senha"
-              className="bg-secondary text-white"
-              value={passwordLogin}
-              onChange={(e) => setPasswordLogin(e.target.value)}
-            />
-          </Form.Group>
-        </Form>
-      </div>
-      
       <div className='text-red-500'>{log}</div>
       
     </div>

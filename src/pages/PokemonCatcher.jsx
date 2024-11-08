@@ -8,6 +8,36 @@ function PokemonCatcher() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Load team from localStorage and update whenever selectedTeam changes
+  useEffect(() => {
+    const storedTeam = JSON.parse(localStorage.getItem('myPokemonTeam')) || [];
+    setSelectedTeam(storedTeam);
+
+    const fetchData = async () => {
+      try {
+        const randomIds = getRandomPokemons(10, 1, 1025);
+        const requests = randomIds.map(id => axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`));
+        const responses = await Promise.all(requests);
+        const pokemonsData = responses.map(response => response.data);
+        setData(pokemonsData);
+      } catch (e) {
+        console.error('Erro ao buscar dados:', e);
+        setError('Não foi possível carregar os dados.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  
+  useEffect(() => {
+   
+    localStorage.setItem('myPokemonTeam', JSON.stringify(selectedTeam));
+  }, [selectedTeam]); 
+
+
+  // Function to generate random Pokémon IDs
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
@@ -19,27 +49,6 @@ function PokemonCatcher() {
     }
     return Array.from(ids);
   }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const randomIds = getRandomPokemons(10, 1, 1025);
-        const requests = randomIds.map(id => axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`));
-        const responses = await Promise.all(requests);
-        const pokemonsData = responses.map(response => response.data);
-        setData(pokemonsData);
-        //console.log(pokemonsData);
-
-
-      } catch (e) {
-        console.error('Erro ao buscar dados:', e);
-        setError('Não foi possível carregar os dados.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
 
   const toggleSelectPokemon = (pokemon) => {
     setSelectedTeam((prevTeam) => {
@@ -54,18 +63,14 @@ function PokemonCatcher() {
   };
 
   const saveTeam = () => {
-    localStorage.setItem('myPokemonTeam', JSON.stringify(selectedTeam));
     alert('Time salvo com sucesso!');
   };
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
 
-
   return (
-
-    <div className='container min-h-[90vh]'>
-
+    <div className="container min-h-screen bg-gradient-to-b from-neutral-900 to-zinc-900 text-white pb-8">
       <div className='text-center'>
         <h2>Monte seu time!</h2>
         <h2>Escolha até 5 pokémons</h2>
@@ -81,7 +86,7 @@ function PokemonCatcher() {
             <div
               key={pokemon.id}
               onClick={() => toggleSelectPokemon(pokemon)}
-              className={`cursor-pointer ${isSelected ? 'border-2 border-green-500' : 'border-2 border-transparent'} rounded-lg w-[235px]`}
+              className={`cursor-pointer ${isSelected ? 'bg-green-500' : 'bg-transparent'} rounded-lg w-[235px]`}
             >
               <CardStatus
                 src={pokemon.sprites.front_default}
@@ -99,6 +104,12 @@ function PokemonCatcher() {
           );
         })}
       </div>
+
+      {selectedTeam.length < 5 && (
+        <div className="text-center mt-4">
+          <p>Selecione mais Pokémon para completar seu time!</p>
+        </div>
+      )}
 
       {selectedTeam.length === 5 && (
         <div className="text-center mt-4">

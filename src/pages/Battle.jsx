@@ -156,7 +156,7 @@ function Battle() {
   }
 
   return (
-    <div>
+    <div className="container min-h-screen bg-gradient-to-b from-neutral-900 to-zinc-900 text-white pb-8 ">
       <Button
         buttonName="batalhe com um time"
         href=""

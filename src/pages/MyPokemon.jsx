@@ -6,7 +6,7 @@ import ButtonComponent from '../components/Button';
 function MyPokemon() {
   const [myPokemonTeam, setMyPokemonTeam] = useState([]);
   const navigate = useNavigate();
- 
+
   const handleSubmit = (path) => {
     navigate(path);
   };
@@ -15,9 +15,8 @@ function MyPokemon() {
     const savedTeam = JSON.parse(localStorage.getItem('myPokemonTeam')) || [];
     setMyPokemonTeam(savedTeam);
   }, []);
-  
   return (
-    <div className='min-h-[90vh]'>
+    <div className="container min-h-screen bg-gradient-to-b from-neutral-900 to-zinc-900 text-white pb-8 ">
       <h2 className="text-center mt-3">Meu Time Pokémon</h2>
 
       <div className="container flex flex-wrap gap-4 justify-center my-4">
