@@ -29,7 +29,7 @@ function SliderComponent() {
                 src={pokemon.sprites.front_default}
                 name={pokemon.name}
                 id={pokemon.id}
-                types={types} 
+                types={types}
                 height ={pokemon.height/10}
                 weight ={pokemon.weight/10}
               />

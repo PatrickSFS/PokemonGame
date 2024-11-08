@@ -63,7 +63,11 @@ function MyPokemon() {
       <div className="text-center mt-4">
         <h2 className="text-2xl font-semibold">Comece a batalhar!</h2>
         <div onClick={() => handleSubmit("/Battle")} className="inline-block mt-3">
-          <ButtonComponent buttonName="Batalhe" />
+          <button
+            className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
+          >
+            Batalhe
+          </button>
         </div>
       </div>
     </div>

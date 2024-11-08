@@ -13,30 +13,43 @@ BrowserRouter
 axios
 react-slick
 usando LocalStorage
-
+Material UI
 
 ## A fazer
-home
-- fazer form funcional --- feito
-- fazer verificações
-- salvar login no localstorage --- feito
-- permitir usuario excluir conta --- feito
 
-- criar componente de loading --- feito
-- deixar componente de loading bonito
+## dar uma olhada em
+
+[Material UI](https://mui.com/material-ui/)
+
+
+
+
+
+/*
+Skeleton
+Display a placeholder preview of your content before the data gets loaded to reduce load-time frustration.
+https://mui.com/material-ui/react-skeleton/
+
+
+*/
+
+
+
+
+
+home
+
+- fazer verificações
+- deixar componente de loading bonito 
 
 css
- - Aumentar o tamanho do cardStatus um cadinho, devido a nomes de pokemons gigantes ksksksks
  - fazer o css de todas as páginas
-  - Ver qual a cor da NavBar e colocar no footer, ta muito forte a transição
   - adicionar modo claro
+  - fazer um if nos nomes dos tipos e colocar um css para cada tipo nos cards
 
-MyPokemon:
-- poder excluir alguns pokemons para poder pegar novos
 
 PokemonCatcher
-- Poder ir adicionando 1 pokemon por vez no meuTime
-- Fazer algo que diz que seu time chegou ao máximo
+- deixar os primeiros 10 serem fixos
 
 Profile:
 * Fazer toda a pagina, com algumas estatisticas

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Button from '../components/Button';
 import CreateRandonTeam from "../components/CreateRadomTeam";
 import CardStatus from '../components/CardStatus';
+import { Collapse } from 'react-collapse';
 
 // Função de dano
 function DamageControl(attack, defense) {
@@ -18,6 +19,7 @@ function Battle() {
   const [myPokemonTeam, setMyPokemonTeam] = useState([]);
   const [opponentTeam, setOpponentTeam] = useState([]);
   const [log, setLog] = useState([]);
+  const [isLogExpanded, setIsLogExpanded] = useState(false);
 
   let combatLogs = [];
 
@@ -40,10 +42,9 @@ function Battle() {
   useEffect(() => {
     const savedOpponentTeam = JSON.parse(localStorage.getItem('opponentPokemonTeam')) || [];
     setOpponentTeam(savedOpponentTeam);
-
   }, []);
 
-
+  // logica do combate
   function combat(pokemon1, pokemon2) {
 
     if (myPokemonTeam.length === 0) {
@@ -52,7 +53,6 @@ function Battle() {
       console.log("Todos os pokemons do adversário morreram!");
     } else {
       console.log("O combate continua!");
-
 
       let name1 = pokemon1[0].name;
       let name2 = pokemon2[0].name;
@@ -68,13 +68,11 @@ function Battle() {
 
       combatLogs.push(`${name1}, Vs ${name2}`);
 
-
       let turn = 1;
       while (hp1 > 0 && hp2 > 0 && turn < 20) {
         combatLogs.push(`----- Turno -----`);
-        
 
-        // pokemon 1 ataca o  pokemon 2
+        // pokemon 1 ataca o pokemon 2
         let damage = DamageControl(attack1, defense2);
         combatLogs.push(`${name2} recebeu: ${damage} de dano`);
         hp2 = hp2 - damage;
@@ -83,7 +81,7 @@ function Battle() {
         }
         combatLogs.push(`${name2} Vida atual: ${hp2}`);
 
-        // pokemon 2 ataca o o pokemon 1
+        // pokemon 2 ataca o pokemon 1
         if(hp2 > 0){
           let damage2 = DamageControl(attack2, defense1);
           combatLogs.push(`${name1} recebeu: ${damage2} de dano`);
@@ -101,62 +99,39 @@ function Battle() {
 
       // resultado do combate
       if (hp1 <= 0) {
-
+        // Lógica de remoção e atualização do time do jogador
         let myPokemonTeam = JSON.parse(localStorage.getItem('myPokemonTeam')) || [];
         myPokemonTeam.shift();
         localStorage.setItem('myPokemonTeam', JSON.stringify(myPokemonTeam));
-        setMyPokemonTeam(myPokemonTeam)
-
-        // atualizar a vida no localstorage e no Mypokemon
+        setMyPokemonTeam(myPokemonTeam);
 
         let opponentPokemonTeam = JSON.parse(localStorage.getItem('opponentPokemonTeam')) || [];
-        // remove o anterior
-        localStorage.removeItem('opponentPokemonTeam')
-
-        //atualiza a vida no objeto
         opponentPokemonTeam[0].stats[0].base_stat = hp2;
-
-        // seta de novo o novo objeto
         localStorage.setItem('opponentPokemonTeam', JSON.stringify(opponentPokemonTeam));
         setOpponentTeam(opponentPokemonTeam);
 
-        let newLogs = [` Ganhou ${name2}`];
-        setLog(prevLogs =>[...prevLogs, ...newLogs])
-      }
-
-      else {
-
-        // removo o pokemon que perdeu da lista
+        let newLogs = [`Ganhou ${name2}`];
+        setLog(prevLogs =>[...prevLogs, ...newLogs]);
+      } else {
+        // Lógica de remoção e atualização do time do adversário
         let opponentPokemonTeam = JSON.parse(localStorage.getItem('opponentPokemonTeam')) || [];
         opponentPokemonTeam.shift();
         localStorage.setItem('opponentPokemonTeam', JSON.stringify(opponentPokemonTeam));
         setOpponentTeam(opponentPokemonTeam);
 
-        // atualizar a vida no localstorage e no Mypokemon
-
         let myPokemonTeam = JSON.parse(localStorage.getItem('myPokemonTeam')) || [];
-        // remove o anterior
-        localStorage.removeItem('myPokemonTeam')
-
-        //atualiza a vida no objeto
         myPokemonTeam[0].stats[0].base_stat = hp1;
-
-        // seta de novo o novo objeto
         localStorage.setItem('myPokemonTeam', JSON.stringify(myPokemonTeam));
         setMyPokemonTeam(myPokemonTeam);
 
-        let newLogs = [` Ganhou ${name1}`];
-        setLog(prevLogs =>[...prevLogs, ...newLogs])
+        let newLogs = [`Ganhou ${name1}`];
+        setLog(prevLogs =>[...prevLogs, ...newLogs]);
       }
-
-
     }
-
-    return;
   }
 
   return (
-    <div className="container min-h-screen bg-gradient-to-b from-neutral-900 to-zinc-900 text-white pb-8 ">
+    <div className="container min-h-screen bg-gradient-to-b from-neutral-900 to-zinc-900 text-white pb-8">
       <Button
         buttonName="batalhe com um time"
         href=""
@@ -168,12 +143,19 @@ function Battle() {
         onclick={() => combat(myPokemonTeam, opponentTeam)}
       />
 
-      {/*Mostra os Logs do combate*/}
-
-      <div>
-        {log.map((logItem, index) => (
-          <p key={index}>{logItem}</p>
-        ))}
+      {/* Logs de combate com rolagem e expansão */}
+      <div className="mt-4">
+        <Button
+          buttonName={isLogExpanded ? 'Fechar Logs' : 'Abrir Logs'}
+          onclick={() => setIsLogExpanded(!isLogExpanded)}
+        />
+        <Collapse isOpened={isLogExpanded}>
+          <div className="overflow-auto bg-gray-700 rounded-lg p-2 max-h-80 w-[25%]">
+            {log.map((logItem, index) => (
+              <p key={index} className="text-white text-sm mb-1 text-left">{logItem}</p>
+            ))}
+          </div>
+        </Collapse>
       </div>
 
       <h2>Meu Time</h2>
@@ -198,6 +180,7 @@ function Battle() {
           );
         })}
       </div>
+
       <h2>Time do Oponente</h2>
       <div className="flex flex-wrap">
         {opponentTeam.map((pokemon) => {
@@ -220,9 +203,8 @@ function Battle() {
           );
         })}
       </div>
-
     </div>
   );
-
 }
+
 export default Battle;
