@@ -23,6 +23,7 @@ home
 - permitir usuario excluir conta --- feito
 
 - criar componente de loading --- feito
+- deixar componente de loading bonito
 
 css
  - Aumentar o tamanho do cardStatus um cadinho, devido a nomes de pokemons gigantes ksksksks
