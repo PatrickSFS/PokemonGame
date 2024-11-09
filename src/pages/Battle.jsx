@@ -42,10 +42,9 @@ function Battle() {
     setOpponentTeam(savedOpponentTeam);
   }, []);
 
-  // Função de combate usando os Pokémon selecionados
   function combat() {
     if (!selectedMyPokemon || !selectedOpponentPokemon) {
-      alert("Selecione um Pokémon de cada time!");
+      alert("Selecione um Pokémon de cada time antes de iniciar o combate!");
       return;
     }
 
@@ -56,28 +55,81 @@ function Battle() {
     const defense2 = selectedOpponentPokemon.stats[2].base_stat;
     const id2 = selectedOpponentPokemon.id;
 
-    // Pokémon 1 ataca o Pokémon 2
+    // Pokémon do jogador ataca o Pokémon oponente
     let damage = DamageControl(attack1, defense2);
-    combatLogs.push(`${name2} recebeu: ${damage} de dano`);
+    combatLogs.push(`${name2} recebeu: ${damage} de dano do ${name1}`);
     hp2 -= damage;
+
+    // Atualiza o HP do Pokémon oponente no localStorage
+    selectedOpponentPokemon.stats[0].base_stat = hp2;
+    localStorage.setItem('opponentPokemonTeam', JSON.stringify(opponentTeam));
 
     if (hp2 <= 0) {
       combatLogs.push(`${name2} foi derrotado!`);
 
-      // Atualizar equipe removendo o Pokémon derrotado
-      const Data = JSON.parse(localStorage.getItem('opponentPokemonTeam')) || [];
-      const updatedTeam = Data.filter(pokemon => pokemon.id !== id2);
+      // Atualiza a equipe do oponente removendo o Pokémon derrotado
+      const updatedTeam = opponentTeam.filter(pokemon => pokemon.id !== id2);
       setOpponentTeam(updatedTeam);
       localStorage.setItem('opponentPokemonTeam', JSON.stringify(updatedTeam));
     }
 
     // Atualiza os logs no estado
     setLog([...log, ...combatLogs]);
+
+    // Só realiza o contra-ataque se o Pokémon do jogador estiver selecionado
+    if (selectedMyPokemon) {
+      counterAttack();
+      setSelectedOpponentPokemon(null);
+      setSelectedMyPokemon(null);
+    }
   }
+
+
+  // função de IA para o contra attack
+  function counterAttack() {
+    // Verifica se há Pokémon suficientes para o contra-ataque
+    if (myPokemonTeam.length === 0 || opponentTeam.length === 0) {
+      return;
+    }
+
+    // Seleciona um Pokémon aleatório do time do jogador para sofrer o contra-ataque
+    const randomMyPokemonIndex = Math.floor(Math.random() * myPokemonTeam.length);
+    const targetedPokemon = myPokemonTeam[randomMyPokemonIndex];
+
+    // Define atributos para o cálculo do dano do contra-ataque
+    const attack2 = selectedOpponentPokemon.stats[1].base_stat;
+    const defense1 = targetedPokemon.stats[2].base_stat;
+    let hp1 = targetedPokemon.stats[0].base_stat;
+
+    // Calcula o dano sofrido pelo Pokémon do jogador
+    let counterDamage = DamageControl(attack2, defense1);
+    combatLogs.push(`${targetedPokemon.name} recebeu: ${counterDamage} de dano do ${selectedOpponentPokemon.name}`);
+    hp1 -= counterDamage;
+
+    // Atualiza o HP do Pokémon do jogador no localStorage
+    targetedPokemon.stats[0].base_stat = hp1;
+    localStorage.setItem('myPokemonTeam', JSON.stringify(myPokemonTeam));
+
+    if (hp1 <= 0) {
+      combatLogs.push(`${targetedPokemon.name} foi derrotado!`);
+
+      // Atualiza a equipe do jogador removendo o Pokémon derrotado
+      const updatedTeam = myPokemonTeam.filter(pokemon => pokemon.id !== targetedPokemon.id);
+      setMyPokemonTeam(updatedTeam);
+      localStorage.setItem('myPokemonTeam', JSON.stringify(updatedTeam));
+    }
+
+    // Atualiza os logs no estado com o contra-ataque
+    setLog([...log, ...combatLogs]);
+  }
+
+
+
 
   // Função para selecionar Pokémon
   const selectMyPokemon = (pokemon) => {
     setSelectedMyPokemon(pokemon);
+
   };
 
   const selectOpponentPokemon = (pokemon) => {

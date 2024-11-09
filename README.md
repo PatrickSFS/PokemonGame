@@ -57,13 +57,9 @@ Profile:
 - Derrotas
 
 Batalhe:
-- Poder selecionar qual pokémon eu quero atacar e com qual eu quero
-- fazer a I.A atacar algum com menor defesa, ou um calculo louco ai
 - Criar times pokemon, fixos
 - sistema de pokedex, onde os pokemons mortos em combate ficam com a vida zerada na pokedex.
 - criar efeitos extras com css
-- Atualizar a vida do pokemon que sobreviver --- feito
-- Transformar a parte que atualiza a vida deles no localstorage e no estado em uma função que recebe o objeto e sua vida atual.
 
 
 ## extras
