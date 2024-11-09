@@ -6,12 +6,8 @@ import { Collapse } from 'react-collapse';
 
 // Função de dano
 function DamageControl(attack, defense) {
-  let damage = attack - (defense/2);
-  if(damage <= 0){
-    damage =1;
-    return damage;
-  }else
-  return damage;
+  let damage = attack - (defense / 2);
+  return damage > 0 ? damage : 1;
 }
 
 // Função principal
@@ -20,6 +16,8 @@ function Battle() {
   const [opponentTeam, setOpponentTeam] = useState([]);
   const [log, setLog] = useState([]);
   const [isLogExpanded, setIsLogExpanded] = useState(false);
+  const [selectedMyPokemon, setSelectedMyPokemon] = useState(null);
+  const [selectedOpponentPokemon, setSelectedOpponentPokemon] = useState(null);
 
   let combatLogs = [];
 
@@ -33,7 +31,7 @@ function Battle() {
     }
   };
 
-  // recupera itens do localStorage 
+  // Recupera itens do localStorage
   useEffect(() => {
     const savedTeam = JSON.parse(localStorage.getItem('myPokemonTeam')) || [];
     setMyPokemonTeam(savedTeam);
@@ -44,103 +42,57 @@ function Battle() {
     setOpponentTeam(savedOpponentTeam);
   }, []);
 
-  // logica do combate
-  function combat(pokemon1, pokemon2) {
-
-    if (myPokemonTeam.length === 0) {
-      console.log("Todos os seus pokemons morreram!");
-    } else if (opponentTeam.length === 0) {
-      console.log("Todos os pokemons do adversário morreram!");
-    } else {
-      console.log("O combate continua!");
-
-      let name1 = pokemon1[0].name;
-      let name2 = pokemon2[0].name;
-
-      let hp1 = pokemon1[0].stats[0].base_stat;
-      let hp2 = pokemon2[0].stats[0].base_stat;
-
-      const attack1 = pokemon1[0].stats[1].base_stat;
-      const attack2 = pokemon2[0].stats[1].base_stat;
-
-      const defense1 = pokemon1[0].stats[2].base_stat;
-      const defense2 = pokemon2[0].stats[2].base_stat;
-
-      combatLogs.push(`${name1}, Vs ${name2}`);
-
-      let turn = 1;
-      while (hp1 > 0 && hp2 > 0 && turn < 20) {
-        combatLogs.push(`----- Turno -----`);
-
-        // pokemon 1 ataca o pokemon 2
-        let damage = DamageControl(attack1, defense2);
-        combatLogs.push(`${name2} recebeu: ${damage} de dano`);
-        hp2 = hp2 - damage;
-        if(hp2 <=0){
-          hp2 = 0;
-        }
-        combatLogs.push(`${name2} Vida atual: ${hp2}`);
-
-        // pokemon 2 ataca o pokemon 1
-        if(hp2 > 0){
-          let damage2 = DamageControl(attack2, defense1);
-          combatLogs.push(`${name1} recebeu: ${damage2} de dano`);
-          hp1 = hp1 - damage2;
-          if(hp1 <=0){
-            hp1 = 0;
-          }
-          combatLogs.push(`${name1} Vida atual: ${hp1}`);
-        }
-
-        turn++
-      }
-
-      setLog(prevLogs => [...prevLogs, ...combatLogs]);
-
-      // resultado do combate
-      if (hp1 <= 0) {
-        // Lógica de remoção e atualização do time do jogador
-        let myPokemonTeam = JSON.parse(localStorage.getItem('myPokemonTeam')) || [];
-        myPokemonTeam.shift();
-        localStorage.setItem('myPokemonTeam', JSON.stringify(myPokemonTeam));
-        setMyPokemonTeam(myPokemonTeam);
-
-        let opponentPokemonTeam = JSON.parse(localStorage.getItem('opponentPokemonTeam')) || [];
-        opponentPokemonTeam[0].stats[0].base_stat = hp2;
-        localStorage.setItem('opponentPokemonTeam', JSON.stringify(opponentPokemonTeam));
-        setOpponentTeam(opponentPokemonTeam);
-
-        let newLogs = [`Ganhou ${name2}`];
-        setLog(prevLogs =>[...prevLogs, ...newLogs]);
-      } else {
-        // Lógica de remoção e atualização do time do adversário
-        let opponentPokemonTeam = JSON.parse(localStorage.getItem('opponentPokemonTeam')) || [];
-        opponentPokemonTeam.shift();
-        localStorage.setItem('opponentPokemonTeam', JSON.stringify(opponentPokemonTeam));
-        setOpponentTeam(opponentPokemonTeam);
-
-        let myPokemonTeam = JSON.parse(localStorage.getItem('myPokemonTeam')) || [];
-        myPokemonTeam[0].stats[0].base_stat = hp1;
-        localStorage.setItem('myPokemonTeam', JSON.stringify(myPokemonTeam));
-        setMyPokemonTeam(myPokemonTeam);
-
-        let newLogs = [`Ganhou ${name1}`];
-        setLog(prevLogs =>[...prevLogs, ...newLogs]);
-      }
+  // Função de combate usando os Pokémon selecionados
+  function combat() {
+    if (!selectedMyPokemon || !selectedOpponentPokemon) {
+      alert("Selecione um Pokémon de cada time!");
+      return;
     }
+
+    let name1 = selectedMyPokemon.name;
+    let name2 = selectedOpponentPokemon.name;
+    let hp2 = selectedOpponentPokemon.stats[0].base_stat;
+    const attack1 = selectedMyPokemon.stats[1].base_stat;
+    const defense2 = selectedOpponentPokemon.stats[2].base_stat;
+    const id2 = selectedOpponentPokemon.id;
+
+    // Pokémon 1 ataca o Pokémon 2
+    let damage = DamageControl(attack1, defense2);
+    combatLogs.push(`${name2} recebeu: ${damage} de dano`);
+    hp2 -= damage;
+
+    if (hp2 <= 0) {
+      combatLogs.push(`${name2} foi derrotado!`);
+
+      // Atualizar equipe removendo o Pokémon derrotado
+      const Data = JSON.parse(localStorage.getItem('opponentPokemonTeam')) || [];
+      const updatedTeam = Data.filter(pokemon => pokemon.id !== id2);
+      setOpponentTeam(updatedTeam);
+      localStorage.setItem('opponentPokemonTeam', JSON.stringify(updatedTeam));
+    }
+
+    // Atualiza os logs no estado
+    setLog([...log, ...combatLogs]);
   }
+
+  // Função para selecionar Pokémon
+  const selectMyPokemon = (pokemon) => {
+    setSelectedMyPokemon(pokemon);
+  };
+
+  const selectOpponentPokemon = (pokemon) => {
+    setSelectedOpponentPokemon(pokemon);
+  };
 
   return (
     <div className="container min-h-screen bg-gradient-to-b from-neutral-900 to-zinc-900 text-white pb-8">
       <Button
-        buttonName="batalhe com um time"
-        href=""
+        buttonName="Gerar time oponente"
         onclick={handleGenerateTeam}
       />
       <Button
-        buttonName="batalha"
-        href=""
-        onclick={() => combat(myPokemonTeam, opponentTeam)}
+        buttonName="Batalhar"
+        onclick={combat}
       />
 
       {/* Logs de combate com rolagem e expansão */}
@@ -163,7 +115,11 @@ function Battle() {
         {myPokemonTeam.map((pokemon) => {
           const types = pokemon.types ? pokemon.types.map((type) => type.type.name) : [];
           return (
-            <div key={pokemon.id} className="w-[230px] h-[460px] p-2">
+            <div
+              key={pokemon.id}
+              className={`w-[230px] h-[460px] p-2 cursor-pointer ${selectedMyPokemon?.id === pokemon.id ? 'border-4 border-blue-500' : ''}`}
+              onClick={() => selectMyPokemon(pokemon)}
+            >
               <CardStatus
                 src={pokemon.sprites.front_default}
                 name={pokemon.name}
@@ -186,7 +142,11 @@ function Battle() {
         {opponentTeam.map((pokemon) => {
           const types = pokemon.types ? pokemon.types.map((type) => type.type.name) : [];
           return (
-            <div key={pokemon.id} className="w-[230px] h-[460px] p-2">
+            <div
+              key={pokemon.id}
+              className={`w-[230px] h-[460px] p-2 cursor-pointer ${selectedOpponentPokemon?.id === pokemon.id ? 'border-4 border-red-500' : ''}`}
+              onClick={() => selectOpponentPokemon(pokemon)}
+            >
               <CardStatus
                 src={pokemon.sprites.front_default}
                 name={pokemon.name}

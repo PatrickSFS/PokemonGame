@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import CardStatus from '../components/CardStatus';
 import { useNavigate } from 'react-router-dom';
-import ButtonComponent from '../components/Button';
 
 function MyPokemon() {
   const [myPokemonTeam, setMyPokemonTeam] = useState([]);
