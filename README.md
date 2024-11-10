@@ -12,8 +12,9 @@ Este é um aplicativo web utilizando a API de Pokémons para listar e criar um C
 
 ## Instalação
 
-[Link para o projeto](https://pokemon-game-eu58.vercel.app)
-Você pode acessar o projeto [aqui]().
+Aqui você pode acessar e testar todo o projeto
+[Pokemon Game Card](https://pokemon-game-eu58.vercel.app)
+
 
 1. Clone este repositório:
 ```
