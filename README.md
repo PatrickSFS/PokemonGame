@@ -40,7 +40,8 @@ Ao abrir o aplicativo, você será direcionado para a tela inicial, onde poderá
 
 - [React](https://reactjs.org/) - Biblioteca JavaScript para interfaces de usuário
 - [Vite](https://vitejs.dev/) - Build tool e servidor de desenvolvimento rápido
-- HTML e CSS
+- [HTML](https://developer.mozilla.org/pt-BR/docs/Web/HTML)
+- [CSS](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
 - [Axios](https://axios-http.com/) - Cliente HTTP para consumo da API de Pokémons
 - [ESlint](https://eslint.org/) - Linter para qualidade de código
 - [Tailwind CSS](https://tailwindcss.com/) - Framework CSS utilitário
@@ -63,6 +64,8 @@ Este é um projeto open-source e qualquer contribuição é bem-vinda. Para cont
 Email: Patrick.freitas@engenharia.ufjf.br <br>
 Conecte comigo pelo [Linkedin](https://www.linkedin.com/in/patrick-freitas-5bb062194/)
 ## Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais informações.
 
 ## Próximas atualizações
 
