@@ -1,5 +1,5 @@
 import Form from '../components/Form';
-import ImgComponent from '../components/ImgComponent';
+import ImgComponent from "../components/ImgComponent";
 import { useNavigate } from 'react-router-dom';
 import SliderComponent from '../components/Slider';
 
