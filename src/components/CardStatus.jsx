@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 function CardStatus({ src, name, id, types, hp, attack, defense, specialAttack, specialDefense, speed }) {
   return (
     <Card
-      className="cursor-pointer text-white text-opacity-50 rounded-md transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:border-2 hover:border-zinc-400 bg-[#353535] h-[460px] w-[230px]"
+      className="cursor-pointer text-white text-opacity-50 rounded-md transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:border-2 hover:border-zinc-400 bg-[#353535] h-[432px] w-[230px]"
     >
       <div className="h-[210px]">
         <Card.Img variant="top" src={src} className="w-full h-full object-cover" />

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Button from '../components/Button';
 import CreateRandonTeam from "../components/CreateRadomTeam";
 import CardStatus from '../components/CardStatus';
 import { Collapse } from 'react-collapse';
@@ -137,39 +136,39 @@ function Battle() {
   };
 
   return (
-    <div className="container min-h-screen bg-gradient-to-b from-neutral-900 to-zinc-900 text-white pb-8">
-      <Button
-        buttonName="Gerar time oponente"
-        onclick={handleGenerateTeam}
-      />
-      <Button
-        buttonName="Batalhar"
-        onclick={combat}
-      />
+    <div className="container flex flex-col min-h-screen bg-gradient-to-b from-neutral-900 to-zinc-900 text-white">
 
-      {/* Logs de combate com rolagem e expansão */}
-      <div className="mt-4">
-        <Button
-          buttonName={isLogExpanded ? 'Fechar Logs' : 'Abrir Logs'}
-          onclick={() => setIsLogExpanded(!isLogExpanded)}
-        />
+      {/* Botões e Logs */}
+      {/* Side Section with Buttons and Log */}
+      <div className="absolute flex flex-col items-start p-4 space-y-4 bg-neutral-800 rounded-md shadow-lg">
+        <button onClick={handleGenerateTeam} className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700">
+          Gerar time oponente
+        </button>
+
+        <button onClick={combat} className="bg-red-500 text-white p-2 rounded-md hover:bg-red-700">
+          Batalhar
+        </button>
+
+        <button onClick={() => setIsLogExpanded(!isLogExpanded)} className="bg-yellow-500 text-white p-2 rounded-md hover:bg-yellow-700">
+          Log de Batalha
+        </button>
         <Collapse isOpened={isLogExpanded}>
-          <div className="overflow-auto bg-gray-700 rounded-lg p-2 max-h-80 w-[25%]">
+          <div className="overflow-auto bg-neutral-700 rounded-lg p-2 max-h-80 w-[80%]">
             {log.map((logItem, index) => (
-              <p key={index} className="text-white text-sm mb-1 text-left">{logItem}</p>
+              <p key={index} className="text-gray-100 text-sm mb-1">{logItem}</p>
             ))}
           </div>
         </Collapse>
       </div>
 
-      <h2>Meu Time</h2>
-      <div className="flex flex-wrap">
-        {myPokemonTeam.map((pokemon) => {
+      {/* Meu Time */}
+      <div className="flex items-center mx-[20vw] pt-4">
+        {myPokemonTeam.map((pokemon, index) => {
           const types = pokemon.types ? pokemon.types.map((type) => type.type.name) : [];
           return (
             <div
               key={pokemon.id}
-              className={`w-[230px] h-[460px] p-2 cursor-pointer ${selectedMyPokemon?.id === pokemon.id ? 'border-4 border-blue-500' : ''}`}
+              className={`relative w-[230px] h-[440px] cursor-pointer transition-transform duration-300 hover:z-10 hover:scale-110 -ml-20 ${selectedMyPokemon?.id === pokemon.id ? "scale-110" : ''}`}
               onClick={() => selectMyPokemon(pokemon)}
             >
               <CardStatus
@@ -189,14 +188,14 @@ function Battle() {
         })}
       </div>
 
-      <h2>Time do Oponente</h2>
-      <div className="flex flex-wrap">
-        {opponentTeam.map((pokemon) => {
+      {/* Time do Oponente */}
+      <div className="flex items-center mx-[20vw] pb-5">
+        {opponentTeam.map((pokemon, index) => {
           const types = pokemon.types ? pokemon.types.map((type) => type.type.name) : [];
           return (
             <div
               key={pokemon.id}
-              className={`w-[230px] h-[460px] p-2 cursor-pointer ${selectedOpponentPokemon?.id === pokemon.id ? 'border-4 border-red-500' : ''}`}
+              className={`relative w-[230px] h-[440px] cursor-pointer transition-transform duration-300 hover:z-10 hover:scale-110 -ml-20 ${selectedOpponentPokemon?.id === pokemon.id ? "scale-110" : ''}`}
               onClick={() => selectOpponentPokemon(pokemon)}
             >
               <CardStatus
@@ -216,6 +215,7 @@ function Battle() {
         })}
       </div>
     </div>
+
   );
 }
 

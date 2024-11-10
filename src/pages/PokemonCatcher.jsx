@@ -12,7 +12,7 @@ function PokemonCatcher() {
   const [error, setError] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
 
-  // Load team from localStorage and update whenever selectedTeam changes
+ 
   useEffect(() => {
     const storedTeam = JSON.parse(localStorage.getItem('myPokemonTeam')) || [];
     setSelectedTeam(storedTeam);
@@ -21,13 +21,17 @@ function PokemonCatcher() {
       try {
         const randomIds = getRandomPokemons(10, 1, 1025);
         const requests = randomIds.map(id => axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`));
-        const responses = await Promise.all(requests);
-        const pokemonsData = responses.map(response => response.data);
-        setData(pokemonsData);
+        
+        setTimeout(async () => {
+          const responses = await Promise.all(requests);
+          const pokemonsData = responses.map(response => response.data);
+          setData(pokemonsData);
+          setLoading(false); 
+        }, 1000);
+        
       } catch (e) {
         console.error('Erro ao buscar dados:', e);
         setError('Não foi possível carregar os dados.');
-      } finally {
         setLoading(false);
       }
     };
@@ -38,7 +42,7 @@ function PokemonCatcher() {
     localStorage.setItem('myPokemonTeam', JSON.stringify(selectedTeam));
   }, [selectedTeam]);
 
-  // Function to generate random Pokémon IDs
+
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
@@ -65,31 +69,31 @@ function PokemonCatcher() {
 
   const saveTeam = () => {
     setShowAlert(true);
-    setTimeout(() => setShowAlert(false), 3000); // O alerta desaparecerá após 3 segundos
+    setTimeout(() => setShowAlert(false), 3000);
   };
 
   if (error) return <p>{error}</p>;
 
   return (
     <div className="container min-h-screen bg-gradient-to-b from-neutral-900 to-zinc-900 text-white pb-8">
-<div className='text-center py-6'>
-  <h2 className="text-2xl font-bold text-white mb-2">Monte seu time!</h2>
-  <h3 className="text-lg text-gray-400 mb-4">Escolha até 5 pokémons</h3>
-  <p className="text-xl text-green-500 mb-4">Selecionados: {selectedTeam.length} / 5</p>
+      <div className='text-center py-6'>
+        <h2 className="text-2xl font-bold text-white mb-2">Monte seu time!</h2>
+        <h3 className="text-lg text-gray-400 mb-4">Escolha até 5 pokémons</h3>
+        <p className="text-xl text-green-500 mb-4">Selecionados: {selectedTeam.length} / 5</p>
 
-  {selectedTeam.length < 5 && (
-    <p className="text-sm text-gray-300 mb-4">Selecione mais Pokémon para completar seu time!</p>
-  )}
+        {selectedTeam.length < 5 && (
+          <p className="text-sm text-gray-300 mb-4">Selecione mais Pokémon para completar seu time!</p>
+        )}
 
-  {selectedTeam.length === 5 && (
-    <button
-      onClick={saveTeam}
-      className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
-    >
-      Salvar meu time
-    </button>
-  )}
-</div>
+        {selectedTeam.length === 5 && (
+          <button
+            onClick={saveTeam}
+            className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
+          >
+            Salvar meu time
+          </button>
+        )}
+      </div>
 
       <div className='grid grid-cols-5 gap-4 w-[80%] m-auto'>
         {loading ? (

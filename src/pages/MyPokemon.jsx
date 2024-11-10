@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import CardStatus from '../components/CardStatus';
 import { useNavigate } from 'react-router-dom';
+import Skeleton from '@mui/material/Skeleton';
 
 function MyPokemon() {
   const [myPokemonTeam, setMyPokemonTeam] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   const handleSubmit = (path) => {
@@ -18,7 +20,10 @@ function MyPokemon() {
 
   useEffect(() => {
     const savedTeam = JSON.parse(localStorage.getItem('myPokemonTeam')) || [];
-    setMyPokemonTeam(savedTeam);
+    setTimeout(() => {
+      setMyPokemonTeam(savedTeam);
+      setIsLoading(false); 
+    }, 1000);
   }, []);
 
   return (
@@ -26,14 +31,22 @@ function MyPokemon() {
       <h2 className="text-center pt-4 text-2xl font-semibold">Meu Time Pokémon</h2>
 
       <div className="container flex flex-wrap gap-4 justify-center my-4">
-        {myPokemonTeam.length === 0 ? (
+        {isLoading ? (
+          Array.from({ length: 5 }).map((_, index) => (
+            <div key={index} className="rounded-lg w-[235px]">
+              <Skeleton variant="rectangular" width={240} height={118} />
+              <Skeleton width="60%" />
+              <Skeleton width="40%" />
+            </div>
+          ))
+        ) : myPokemonTeam.length === 0 ? (
           <p className="text-center text-xl">Você ainda não selecionou um time.</p>
         ) : (
           myPokemonTeam.map((pokemon) => {
             const types = pokemon.types ? pokemon.types.map((type) => type.type.name) : [];
 
             return (
-              <div key={pokemon.id} className='relative'>
+              <div key={pokemon.id} className="relative">
                 <CardStatus
                   src={pokemon.sprites.front_default}
                   name={pokemon.name}

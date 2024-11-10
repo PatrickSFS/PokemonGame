@@ -11,8 +11,6 @@ const handleSubmit = () => {
 function Profile() {
   return (
     <div className='container min-h-[90vh]'>
-      Profile
-
       <Button
         buttonName="Excluir Perfil"
         onclick={handleSubmit}
