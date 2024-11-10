@@ -92,6 +92,3 @@ Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais informa�
 
 5. meme:
  - Fazer em vez de pokemons, memes ou Gatinhos algo assim.
-
-
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais informações.
