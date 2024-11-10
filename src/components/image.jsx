@@ -10,8 +10,8 @@ ImgComponent.propTypes = {
 function ImgComponent({src}) {
   return (
     <Container>
-      <Col xs={12} md={6}> {/* Ajustando para que a coluna tenha um tamanho responsivo */}
-        <Image src={src} rounded fluid style={{maxWidth: '300px', maxHeight: '200px'}} /> {/* Definindo a imagem para ser pequena */}
+      <Col xs={12} md={6}> 
+        <Image src={src} rounded fluid style={{maxWidth: '300px', maxHeight: '200px'}} /> 
       </Col>
     </Container>
   );
