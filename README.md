@@ -69,27 +69,28 @@ Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais informa�
 
 ## Próximas atualizações
 
-- deixar componente de loading mais bonito
 
-1. css
+
+1. estilização dos componentes
 - fazer o css de todas as páginas
 - adicionar modo claro
 - fazer um if nos nomes dos tipos e colocar um css para cada tipo nos cards
+- deixar componente de loading mais bonito
 
-PokemonCatcher
+2. página de capturar pokemons
 - deixar os primeiros 10 serem fixos
 
-Profile:
+3. Página de Perfil:
 - Fazer toda a pagina, com algumas estatisticas
 - Vitorias
 - Derrotas
 
-Batalhe:
+4. Sistema de batalha:
 - Criar times pokemon, fixos
 - sistema de pokedex, onde os pokemons mortos em combate ficam com a vida zerada na pokedex.
 - criar efeitos extras com css
 
-meme:
+5. meme:
  - Fazer em vez de pokemons, memes ou Gatinhos algo assim.
 
 
