@@ -13,13 +13,13 @@ function ExpandableLog({ log }) {
     <div className=" p-6 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 w-max">
       <button
         onClick={toggleExpand}
-        className="text-left text-white font-semibold mb-4 px-4 py-2 bg-[#222222]rounded-lg hover:bg-[#222222] transition-colors duration-200 focus:outline-none "
+        className="text-left text-white font-semibold  bg-[#222222]rounded-lg hover:bg-[#222222] transition-colors duration-200 focus:outline-none "
       >
         {isExpanded ? 'Fechar Logs' : 'Abrir Logs'}
       </button>
 
       <Collapse isOpened={isExpanded}>
-        <div className="overflow-auto  rounded-lg p-4 max-h-96 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-900">
+        <div className="overflow-auto  rounded-lg max-h-96 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-900">
           {log.map((logItem, index) => (
             <p key={index} className="text-sm mb-2">
               {logItem}

@@ -138,9 +138,8 @@ function Battle() {
   return (
     <div className="container flex flex-col min-h-screen bg-gradient-to-b from-neutral-900 to-zinc-900 text-white">
 
-      {/* Botões e Logs */}
       {/* Side Section with Buttons and Log */}
-      <div className="absolute flex flex-col items-start p-4 space-y-4 bg-neutral-800 rounded-md shadow-lg">
+      <div className="absolute flex flex-col items-start p-4 space-y-4 bg-neutral-800 rounded-md shadow-lg w-[290px]">
         <button onClick={handleGenerateTeam} className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700">
           Gerar time oponente
         </button>
@@ -153,7 +152,7 @@ function Battle() {
           Log de Batalha
         </button>
         <Collapse isOpened={isLogExpanded}>
-          <div className="overflow-auto bg-neutral-700 rounded-lg p-2 max-h-80 w-[80%]">
+          <div className="overflow-auto bg-neutral-700 rounded-lg p-2 max-h-80 w-[85%]">
             {log.map((logItem, index) => (
               <p key={index} className="text-gray-100 text-sm mb-1">{logItem}</p>
             ))}

@@ -77,6 +77,7 @@ Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais informa�
 - fazer um if nos nomes dos tipos e colocar um css para cada tipo nos cards
 - deixar componente de loading mais bonito
 - erro de CSS que o log está ultrapassando os limites
+- retirar os alert em batalha e colocar componente de Alert de fato
 
 2. página de capturar pokemons
 - deixar os primeiros 10 serem fixos
