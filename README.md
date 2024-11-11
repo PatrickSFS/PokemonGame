@@ -2,7 +2,7 @@
 
 Este é um aplicativo web utilizando a API de Pokémons para listar e criar um Card Game baseado em turnos.
 
-![Título da imagem]()
+![Título da imagem](https://r2.fivemanage.com/KlNzf0Pcp1lftyIT6bq7x/CE907389-14B6-4068-9D15-1076FF0B4FC4.png)
 
 ## Recursos
 
